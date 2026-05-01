@@ -1,5 +1,4 @@
 # Testing Results
-
 ## Straight Corridor
 - Lateral error: approximately ±30–50 mm
 - Behaviour: stable centring with minor oscillations
@@ -18,3 +17,5 @@
 
 ## Key Limitation
 The system is sensitive to gain tuning. Higher proportional gain caused overcorrection and rotational behaviour.
+
+## For detailed graphs and analysis, refer to the full report submitted for assessment.
