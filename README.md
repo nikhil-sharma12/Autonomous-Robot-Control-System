@@ -75,8 +75,9 @@ The controller continuously adjusts the steering angle to minimise lateral error
 
 ## Repository Contents
 
-- Main control code (C++ / Embedded C)
-- Supporting files and configuration
+- Main program file: main.cpp
+- Required libraries: SRF05.lib and VL53L0X.lib
+- Target platform: STM32 Nucleo-64 / Mbed
 
 ---
 
