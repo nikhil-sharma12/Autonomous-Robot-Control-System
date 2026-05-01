@@ -1,24 +1,93 @@
 # Autonomous Robot Control System
 
-This project implements a PD-based control system for autonomous navigation using sensor feedback.
+## Overview
+This project presents the design and implementation of a real-time embedded control system for autonomous robot navigation. The system uses sensor-based feedback and a Proportional-Derivative (PD) controller to achieve stable movement under different environmental conditions.
 
-## Features
+The robot was tested under three scenarios:
 - Straight corridor navigation
-- Zig-zag corridor handling
+- Zig-zag corridor navigation
 - Dynamic obstacle detection and avoidance
 
-## Hardware Used
-- STM32 Nucleo Board
-- VL53L0X ToF Sensor
-- Ultrasonic Sensors (Left & Right)
+---
+
+## System Architecture
+
+The system integrates:
+- STM32 Nucleo-64 microcontroller
+- VL53L0X Time-of-Flight (ToF) sensor (front obstacle detection)
+- Ultrasonic sensors (left and right distance measurement)
 - Motor driver and steering servo
 
+The control system processes sensor inputs and generates steering and speed outputs in real time.
+
+---
+
 ## Control Strategy
-The system uses a Proportional-Derivative (PD) controller:
+
+The robot uses a PD (Proportional–Derivative) controller for steering correction:
 
 u(t) = Kp e(t) + Kd (de(t)/dt)
 
-Where error is calculated as:
-error = left distance - right distance
+Where:
+- e(t) = left distance − right distance  
+- Kp = proportional gain  
+- Kd = derivative gain  
 
+The controller continuously adjusts the steering angle to minimise lateral error.
 
+---
+
+## Key Features
+
+- Real-time sensor-based navigation  
+- Stable centring in straight corridor  
+- Adaptive response to zig-zag paths  
+- Threshold-based dynamic obstacle detection  
+- Implementation of discrete-time feedback control  
+
+---
+
+## Performance Summary
+
+- Straight corridor: Stable behaviour with low lateral error  
+- Zig-zag corridor: Increased oscillations due to rapid directional changes  
+- Dynamic obstacle: Reliable detection and timely stopping action  
+
+---
+
+## Limitations
+
+- Performance sensitive to controller gain tuning  
+- Oscillations observed in complex paths (underdamped response)  
+- Ultrasonic sensor noise affects measurement accuracy  
+- Control delay (~50–100 ms) impacts responsiveness  
+
+---
+
+## Future Improvements
+
+- Adaptive gain tuning for improved stability  
+- Sensor filtering to reduce noise effects  
+- Higher sampling rate for faster response  
+- Advanced control strategies (PID / model-based control)  
+
+---
+
+## Repository Contents
+
+- Main control code (C++ / Embedded C)
+- Supporting files and configuration
+
+---
+
+## Author
+
+Nikhil Sharma  
+MSc Mechanical Engineering  
+Oxford Brookes University  
+
+---
+
+## License
+
+This project is submitted for academic purposes.
