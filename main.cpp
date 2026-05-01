@@ -5,9 +5,10 @@
  3 = Dynamic corridor with moving obstacle
 
  Control approach:
- * PD steering control based on left/right ultrasonic error
- * ToF front sensor for obstacle detection
- * State-machine priority: front obstacle safety overrides steering PID
+* PD controller implemented for steering correction
+* Ki term removed to avoid integral windup
+* Threshold-based obstacle detection added
+* Finite State-machine (FSM) used to prioritise safety over navigation 
 */
 
 #include "mbed.h"
