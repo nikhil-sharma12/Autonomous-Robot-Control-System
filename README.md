@@ -22,6 +22,9 @@ The control system processes sensor inputs and generates steering and speed outp
 
 ---
 
+
+---
+
 ## Control Strategy
 
 The robot uses a PD (Proportional–Derivative) controller for steering correction:
@@ -52,7 +55,11 @@ The controller continuously adjusts the steering angle to minimise lateral error
 - Straight corridor: Stable behaviour with low lateral error  
 - Zig-zag corridor: Increased oscillations due to rapid directional changes  
 - Dynamic obstacle: Reliable detection and timely stopping action  
+## Testing Results
 
+Detailed testing results for all scenarios can be found here:
+
+[📊 View Detailed Testing Results](testing_results.md)
 ---
 
 ## Limitations
