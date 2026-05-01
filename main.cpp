@@ -5,9 +5,9 @@
  3 = Dynamic corridor with moving obstacle
 
  Control approach:
- - PD steering control based on left/right ultrasonic error
- - ToF front sensor for obstacle detection
- - State-machine priority: front obstacle safety overrides steering PID
+ * PD steering control based on left/right ultrasonic error
+ * ToF front sensor for obstacle detection
+ * State-machine priority: front obstacle safety overrides steering PID
 */
 
 #include "mbed.h"
@@ -18,7 +18,6 @@
 #define TEST_MODE 1   // Change to 1, 2, or 3 test mode
 
 // HARDWARE PIN CONFIGURATION
-
 I2C i2c(PB_9, PB_8);    // ToF sensor: SDA = D14, SCL = D15
 SRF05 srf_Left(PA_10, PB_3);   // Left ultrasonic: Trig = D2, Echo = D3
 SRF05 srf_Right(PA_8, PA_9);   // Right ultrasonic: Trig = D7, Echo = D8
@@ -72,7 +71,6 @@ float clampFloat(float value, float minValue, float maxValue)
     if (value < minValue) return minValue;
     return value;
 }
-
 int clampInt(int value, int minValue, int maxValue)
 {
     if (value > maxValue) return maxValue;
@@ -86,25 +84,21 @@ void stopMotor()
     Motor_FWD.pulsewidth_ms(0);
     Motor_REV.pulsewidth_ms(0);
 }
-
 void fullForward()
 {
     Motor_REV.pulsewidth_ms(0);
     Motor_FWD.pulsewidth_ms(MOTOR_FULL_MS);
 }
-
 void halfForward()
 {
     Motor_REV.pulsewidth_ms(0);
     Motor_FWD.pulsewidth_ms(MOTOR_HALF_MS);
 }
-
 void slowForward()
 {
     Motor_REV.pulsewidth_ms(0);
     Motor_FWD.pulsewidth_ms(MOTOR_SLOW_MS);
 }
-
 void slowReverse()
 {
     Motor_FWD.pulsewidth_ms(0);
@@ -118,27 +112,22 @@ void setSteeringUS(int pulseWidthUS)
     pulseWidthUS = clampInt(pulseWidthUS, SERVO_MIN_US, SERVO_MAX_US);
     Steering.pulsewidth_us(pulseWidthUS);
 }
-
 void setStraight()
 {
     setSteeringUS(SERVO_CENTRE_US);
 }
-
 void setHalfLeft()
 {
     setSteeringUS(1750);
 }
-
 void setFullLeft()
 {
     setSteeringUS(2000);
 }
-
 void setHalfRight()
 {
     setSteeringUS(1250);
 }
-
 void setFullRight()
 {
     setSteeringUS(1000);
@@ -152,7 +141,6 @@ void resetControllerMemory()
     errorPrevious = 0.0f;
     errorSum = 0.0f;
 }
-
 float computePIDOutput()
 {
     errorNow = leftDistanceMM - rightDistanceMM;
@@ -172,7 +160,6 @@ float computePIDOutput()
 
     return output;
 }
-
 void applyPIDSteering()
 {
     float pidOutputUS = computePIDOutput();
@@ -182,7 +169,7 @@ void applyPIDSteering()
 
     setSteeringUS(servoCommandUS);
 
-    printf("PID: %.1f us | Servo: %d us | ", pidOutputUS, servoCommandUS);
+    printf("PID: %.1f us : Servo: %d us  ", pidOutputUS, servoCommandUS);
 }
 
 // SENSOR ACQUISITION
@@ -218,16 +205,16 @@ void modeStraightCorridor()
 
         if (leftDistanceMM > rightDistanceMM) {
             setHalfLeft();
-            printf("MODE 1 | Front obstacle | Reverse + left escape");
+            printf("MODE 1 - Front obstacle - Reverse + left escape");
         } else {
             setHalfRight();
-            printf("MODE 1 | Front obstacle | Reverse + right escape");
+            printf("MODE 1 - Front obstacle - Reverse + right escape");
         }
     }
     else {
         fullForward();
         applyPIDSteering();
-        printf("MODE 1 | Straight corridor | PD wall following");
+        printf("MODE 1 - Straight corridor - PD wall following");
     }
 }
 
@@ -240,16 +227,16 @@ void modeZigZagCorridor()
 
         if (leftDistanceMM > rightDistanceMM) {
             setFullLeft();
-            printf("MODE 2 | Front obstacle | Reverse + full left");
+            printf("MODE 2 - Front obstacle - Reverse + full left");
         } else {
             setFullRight();
-            printf("MODE 2 | Front obstacle | Reverse + full right");
+            printf("MODE 2 - Front obstacle - Reverse + full right");
         }
     }
     else {
         halfForward();
         applyPIDSteering();
-        printf("MODE 2 | Zig-zag corridor | PD damping active");
+        printf("MODE 2 - Zig-zag corridor - PD damping active");
     }
 }
 
@@ -264,24 +251,24 @@ void modeDynamicObstacle()
         setStraight();
         resetControllerMemory();
 
-        printf("MODE 3 | Dynamic obstacle detected | STOP | Rate: %.1f mm", approachRateMM);
+        printf("MODE 3 - Dynamic obstacle detected - STOP - Rate: %.1f mm", approachRateMM);
 
         wait(0.4);
 
         if (leftDistanceMM > rightDistanceMM) {
             slowForward();
             setHalfLeft();
-            printf(" | Resume left");
+            printf("Resume left");
         } else {
             slowForward();
             setHalfRight();
-            printf(" | Resume right");
+            printf("Resume right");
         }
     }
     else {
         halfForward();
         applyPIDSteering();
-        printf("MODE 3 | Dynamic corridor | Safe PD navigation");
+        printf("MODE 3 - Dynamic corridor - Safe PD navigation");
     }
 
     previousToFMM = tofFilteredMM;
