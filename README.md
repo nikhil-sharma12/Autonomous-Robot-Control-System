@@ -21,7 +21,11 @@ The system integrates:
 The control system processes sensor inputs and generates steering and speed outputs in real time.
 
 ---
+## Physical Prototype
 
+The figure below shows the implemented robotic platform used for testing, including sensor placement and system dimensions.
+
+![Autonomous Robot Setup](images/robot_setup.png)
 
 ---
 
