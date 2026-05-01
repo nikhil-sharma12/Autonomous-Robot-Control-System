@@ -25,7 +25,7 @@ The control system processes sensor inputs and generates steering and speed outp
 
 The figure below shows the implemented robotic platform used for testing, including sensor placement and system dimensions.
 
-![Autonomous Robot Setup](images/robot_setup.png)
+![Autonomous Robot Setup](robot_setup.png)
 
 ---
 
