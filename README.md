@@ -32,7 +32,7 @@ Where:
 - e(t) = left distance − right distance  
 - Kp = proportional gain  
 - Kd = derivative gain  
-
+- Ki was set to 0 to avoid integral windup during stop-and-resume behaviour.
 The controller continuously adjusts the steering angle to minimise lateral error.
 
 ---
